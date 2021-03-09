@@ -48,7 +48,11 @@ int main(int argc, char *argv[]) {
     }
 
     cout << "\n";
-
+/*
+ Agora, podemos forçar a sincronização dos threads usando o construtor #pragma omp barrier
+ em uma determinada linha do código.  Por exemplo, podemos fazer todos os threads esperarem
+ pelo thread 5 no código acima. Veja a seguir o código modificado. Teste!
+*/
 #pragma omp parallel private(tid)
     {
         tid = omp_get_thread_num();
