@@ -49,9 +49,9 @@ int main(int argc, char *argv[]) {
 
     cout << "\n";
 /*
- Agora, podemos forçar a sincronização dos threads usando o construtor #pragma omp barrier
- em uma determinada linha do código.  Por exemplo, podemos fazer todos os threads esperarem
- pelo thread 5 no código acima. Veja a seguir o código modificado. Teste!
+ * Agora, podemos forçar a sincronização dos threads usando o construtor #pragma omp barrier
+ * em uma determinada linha do código.  Por exemplo, podemos fazer todos os threads esperarem
+ * pelo thread 5 no código acima. Veja a seguir o código modificado. Teste!
 */
 #pragma omp parallel private(tid)
     {
@@ -69,6 +69,41 @@ int main(int argc, char *argv[]) {
 
         printf("\n Processo %d/%d.", tid, nt);
     }
+
+/*
+ * Seção
+ * O construtor sections pode ser usado para determinar seções do código que deve ser executada
+ * de forma serial apenas uma vez por um único thread. Verifique o seguinte código.
+*/
+#pragma omp parallel private(tid)
+    {
+        tid = omp_get_thread_num();
+        nt = omp_get_num_threads();
+
+#pragma omp sections
+        {
+            // seção 1
+#pragma omp section
+            {
+                printf("%d/%d exec secao 1\n", \
+                tid, nt);
+            }
+
+            // seção 2
+#pragma omp section
+            {
+                // delay 1s
+                time_t t0 = time(NULL);
+                while (time(NULL) - t0 < 1) {
+                }
+                printf("%d/%d exec a secao 2\n", \
+                tid, nt);
+            }
+        }
+
+        printf("%d/%d terminou\n", tid, nt);
+    }
+
 
     cout << "\n\n Tecle uma tecla e apos Enter para finalizar...\n";
     cin >> caracter;
