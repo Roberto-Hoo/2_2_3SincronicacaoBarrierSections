@@ -37,11 +37,31 @@ int main(int argc, char *argv[]) {
         nt = omp_get_num_threads();
 
         if (tid == nt - 1) {
-            // delay 0.001s
+            // Obtem o tempo corrente
+            time_t t1 = time(NULL);
+            //Espera 0,1 segundo
+            while (difftime(time(NULL), t1) < 0.1) {
+            }
+        }
+
+        printf("\n Processo %d/%d.", tid, nt);
+    }
+
+    cout << "\n";
+
+#pragma omp parallel private(tid)
+    {
+        tid = omp_get_thread_num();
+        nt = omp_get_num_threads();
+
+        if (tid == 5) {
+            // delay 1s
             time_t t0 = time(NULL);
             while (time(NULL) - t0 < 0.1) {
             }
         }
+
+#pragma omp barrier
 
         printf("\n Processo %d/%d.", tid, nt);
     }

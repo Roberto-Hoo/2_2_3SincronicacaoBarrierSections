@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+F:/Programacao/CParalelaUfrgs2020_2/2_2_3SincronicacaoBarrierSections/SincronicacaoBarrierSections.cpp
+ctime
+-
+omp.h
+-
+iostream
+-
+
